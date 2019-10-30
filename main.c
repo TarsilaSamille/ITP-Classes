@@ -7,21 +7,21 @@
 #define DIMX (600)
 #define DIMY (400)
 
-void clear(int x, int y, char color[])
+void clear(int x, int y, unsigned char color[])
 {
     color[0] = 255; /* red */
     color[1] = 255; /* green */
     color[2] = 255; /* blue */
 }
 
-void colorir(int r, int g, int b, char color[])
+void colorir(int r, int g, int b,  unsigned char color[])
 {
     color[0] = r; /* red */
     color[1] = g; /* green */
     color[2] = b; /* blue */
 }
 
-void black(int x, int y, char color[])
+void black(int x, int y, unsigned char color[])
 {
     color[0] = 0; /* red */
     color[1] = 0; /* green */
@@ -36,22 +36,23 @@ void original(int x, int y, int color[])
 }
 
 
-void todo(char color[], FILE *fp)
+void todo(unsigned char color[], FILE *fp)
 {
 
-            colorir(241, 200, 0, color);
-            fwrite(color, 1, 3, fp);
+            colorir(255, 255, 255, color);
+            //fwrite(color, 1, 3, fp);
         //     fread(color, 3, 1, fp);
-        //     fprintf( fp, "%c %c %c\n", color[0],color[1],color[2]);
+        printf("%d %d %d\n", color[0],color[1],color[2]);
+             fprintf( fp, "%d %d %d\n", color[0],color[1],color[2]);
     
 }
 
-void linha(int x, int y, char color[], FILE *fp)
+void linha(int x, int y, unsigned char color[], FILE *fp)
 {
 
             if (x==y){
                 colorir(0, 0, 0, color);
-                fwrite(color, 1, 3, fp);
+             fprintf( fp, "%d %d %d\n", color[0],color[1],color[2]);
             }
 
  
@@ -64,12 +65,12 @@ int main(int argc, char **argv)
     int y = 0;
     FILE *fp = NULL;
     char color[3] = {0, 0, 0}; /* r, g, b */
-    void colorir(int r, int g, int b, char color[]);
+    void colorir(int r, int g, int b, unsigned char color[]);
     /* Abre arquivo para gravacao */
     fp = fopen("imageeem.ppm", "w");
 
     /*  Grava Cabeçalho (Header) no arquivo PPM  */
-    fprintf(fp, "P6\n");
+    fprintf(fp, "P3\n");
     fprintf(fp, "%d %d\n", DIMX, DIMY);
     fprintf(fp, "255\n");
 
