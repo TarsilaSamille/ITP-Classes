@@ -7,79 +7,79 @@
 #define DIMX (600)
 #define DIMY (400)
 
-void clear(int x, int y, unsigned char color[])
+
+
+typedef struct Pixel{
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+} Pixel;
+
+Pixel colorir(int r, int g, int b)
 {
-    color[0] = 255; /* red */
-    color[1] = 255; /* green */
-    color[2] = 255; /* blue */
+    Pixel color;
+    color.r = r; /* red */
+    color.g = g; /* green */
+    color.b = b; /* blue */
+    return color;
 }
 
-void colorir(int r, int g, int b,  unsigned char color[])
+void todo( Pixel color, FILE *fp)
 {
-    color[0] = r; /* red */
-    color[1] = g; /* green */
-    color[2] = b; /* blue */
-}
-
-void black(int x, int y, unsigned char color[])
-{
-    color[0] = 0; /* red */
-    color[1] = 0; /* green */
-    color[2] = 0; /* blue */
-}
-
-void original(int x, int y, int color[])
-{
-    color[0] = x + 2 * y % 256; /* red */
-    color[1] = x - y % 256;     /* green */
-    color[2] = (x + y) % 256;   /* blue */
-}
-
-
-void todo(unsigned char color[], FILE *fp)
-{
-
-            colorir(255, 255, 255, color);
-            //fwrite(color, 1, 3, fp);
-        //     fread(color, 3, 1, fp);
-        printf("%d %d %d\n", color[0],color[1],color[2]);
-             fprintf( fp, "%d %d %d\n", color[0],color[1],color[2]);
+   fprintf( fp, "%d %d %d\n",color.r,color.g,color.b);
     
 }
 
-void linha(int x, int y, unsigned char color[], FILE *fp)
+void clear(Pixel *color, int r, int g, int b)
 {
-
-            if (x==y){
-                colorir(0, 0, 0, color);
-             fprintf( fp, "%d %d %d\n", color[0],color[1],color[2]);
-            }
-
- 
+    *color = colorir(r, g, b);    
 }
 
+void linha(int x, int y,  Pixel *color)
+{
+    if (x==y){
+       *color = colorir(30, 0, 0);
+    }
+}
+
+void linha(int x, int y,  Pixel *color)
+{
+    if (x==y){
+       *color = colorir(30, 0, 0);
+    }
+}
 
 int main(int argc, char **argv)
 {
-    int x = 0;
-    int y = 0;
+    int x ;
+    int y ;
     FILE *fp = NULL;
-    char color[3] = {0, 0, 0}; /* r, g, b */
-    void colorir(int r, int g, int b, unsigned char color[]);
+    Pixel colorir(int r, int g, int b);
     /* Abre arquivo para gravacao */
-    fp = fopen("imageeem.ppm", "w");
+    fp = fopen("imagee4em.ppm", "w");
 
     /*  Grava Cabeçalho (Header) no arquivo PPM  */
     fprintf(fp, "P3\n");
     fprintf(fp, "%d %d\n", DIMX, DIMY);
     fprintf(fp, "255\n");
 
+    Pixel imagem[DIMX][DIMY];
+    Pixel *pointer;
+
     for (y = 0; y < DIMY; ++y){
         for (x = 0; x < DIMX; ++x){
-        todo(color, fp);
-        linha(x,y,color, fp);
+            pointer =  &imagem[x][y] ;
+            clear(pointer,0, 200, 0);
+            linha (x,y,pointer);
         }
     }
+
+    for (y = 0; y < DIMY; ++y){
+        for (x = 0; x < DIMX; ++x){
+           todo( imagem[x][y], fp);
+        }
+    }
+
     /* fecha arquivo */
     fprintf(fp, "\n");
 
