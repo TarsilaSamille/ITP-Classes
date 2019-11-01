@@ -1,7 +1,7 @@
 all: main
 
-main: ponto.o circulo.o quadrado.o desenho.o main.c
-	gcc main.c -o main ponto.o circulo.o quadrado.o desenho.o
+main: ponto.o circulo.o quadrado.o desenho.o pixel.o main.c
+	gcc main.c -o main ponto.o circulo.o quadrado.o pixel.o desenho.o
 
 desenho.o: desenho.c
 	gcc -c desenho.c
@@ -14,6 +14,9 @@ quadrado.o: quadrado.c
 
 ponto.o: ponto.c
 	gcc -c ponto.c
+
+pixel.o: pixel.c
+	gcc -c pixel.c
 	
 clean:
 	rm -f *.o

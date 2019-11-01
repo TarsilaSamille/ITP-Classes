@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 Ponto definePonto (int x, int y) {
-	printf("OLA NOVAMENTE, MUNDO\n");
 	Ponto p;
 	p.x = x;
 	p.y = y;
