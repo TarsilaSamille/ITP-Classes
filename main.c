@@ -7,56 +7,51 @@
 #include <string.h>
 #include <errno.h>
 
-#define DIMX (600)
-#define DIMY (400)
-
 void gravarPixel( Pixel color, FILE *fp){
    fprintf( fp, "%d %d %d\n",color.r,color.g,color.b);
 }
 
-void finalizarImagem( Pixel **imagem , FILE *fp, char nome[]){
+void finalizarImagem( Pixel **imagem , FILE *fp, char nome[], int dx, int dy){
     int y,x;
     fp = fopen(nome, "w");
     /*  Grava Cabeçalho (Header) no arquivo PPM  */
     fprintf(fp, "P3\n");
-    fprintf(fp, "%d %d\n", DIMX , DIMY);
+    fprintf(fp, "%d %d\n", dx , dy);
     fprintf(fp, "255\n");
-    for (y = 0; y < DIMY; ++y){
-        for (x = 0; x < DIMX; ++x){
+    for (y = 0; y < dy; ++y){
+        for (x = 0; x < dx; ++x){
            gravarPixel( imagem[x][y] , fp);
         }
     }
     fprintf(fp, "\n");
 }
 
-void fundo(Pixel **color)  { 
+void fundo(Pixel **color, int dx, int dy ,int r, int g,int b){ 
     int y,x;
-    for (y = 0; y < DIMY; ++y){
-        for (x = 0; x < DIMX; ++x){
-            color[x][y] = colorir(0, 0, 0);
+    for (y = 0; y < dy; ++y){
+        for (x = 0; x < dx; ++x){
+            color[x][y] = colorir(r, g, b);
         }
     }
 }
 
-void bresenham(Ponto p1, Ponto p2, Pixel **color)     { 
+void bresenham(Ponto p1, Ponto p2, Pixel **color){ 
     int m_new = 2 * (p2.y - p1.y); 
     int slope_error_new = m_new - (p2.x - p1.x); 
     for (int x = p1.x, y = p1.y; x <= p2.x; x++) { 
-        // Add slope to increment angle formed 
         slope_error_new += m_new; 
-        // Slope error reached limit, time to 
-        // increment y and update slope error. 
         if (slope_error_new >= 0) { 
                 y++; 
                 slope_error_new -= 2 * (p2.x - p1.x); 
         } 
-         color[x][y] = colorir(80, 0, 255);
+         color[x][y] = colorir(0, 0, 255);
+    printf( "%d %d \n",x,y);
+
     } 
 }          
 
 
-Pixel **alocar_matriz (int m, int n)
-{
+Pixel **alocar_matriz (int m, int n){
   Pixel **v;  
   int   i;    
   /* aloca as linhas da matriz */
@@ -68,37 +63,66 @@ Pixel **alocar_matriz (int m, int n)
   return (v); 
 }
 
-Pixel **liberar_matriz (int m, int n, Pixel **v)
-{
+Pixel **liberar_matriz (int m, int n, Pixel **v){
   int  i;  
   for (i=0; i<m; i++) free (v[i]); 
   free (v);     
   return (NULL); 
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
     int x,y;
     FILE *fp = NULL;
 
     Pixel **imagem;
-    imagem = alocar_matriz(DIMX, DIMY);
 
-    Ponto p1, p2, p3 , p4;
+    FILE *arquivoespecificacao;
+    int dimx, dimy;
+
+    char primitiva[15] = "";
+    char dimencaox[4] = "";
+    char dimencaoy[4] = "";
+
+    char r[3] = ""; 
+    char g[3] = ""; 
+    char b[3] = "";
+
+    char nome[15] = "";
+
+    //dimenção
+    arquivoespecificacao = fopen("especificacao.txt", "r");
+    fscanf(arquivoespecificacao, "%s %s %s\n", primitiva, dimencaox, dimencaoy);
+
+
+    dimx = atoi(dimencaox);
+    dimy = atoi(dimencaoy);
+    if(strcmp(primitiva, "image") == 0)
+        imagem = alocar_matriz(dimx, dimy);
+
+    //ação
+    fscanf(arquivoespecificacao, "%s %s %s %s\n", primitiva, r, g, b);
+
+    if(strcmp(primitiva, "clear") == 0)
+        fundo(imagem, dimx, dimy, atoi(r),atoi(g),atoi(b));
+
+
+    /*Ponto p1, p2, p3 , p4;
     p1= definePonto(100,50);
-    p2= definePonto(200,50);
-    p3= definePonto(150,100);
-    p4= definePonto(220,100);
+    p2= definePonto(0,60);
+    p3= definePonto(50,17);
+    p4= definePonto(220,1000);
 
-    fundo(imagem );
-    bresenham(p1 , p2, imagem) ;
-    bresenham(p1 , p3, imagem) ;
-   bresenham(p3 , p2, imagem) ;
-    bresenham(p2 , p4, imagem) ;
+    bresenham(p2 , p1, imagem) ;
+   // bresenham(p1 , p3, imagem) ;
+   // bresenham(p3 , p2, imagem) ;
+   // bresenham(p2 , p4, imagem) ;
+*/
+    //save
+    fscanf(arquivoespecificacao, "%s %s\n", primitiva,nome);
 
-
-    finalizarImagem(imagem, fp, "imagem.ppm");
-    imagem = liberar_matriz (DIMX, DIMY, imagem);
+    if(strcmp(primitiva, "save") == 0)
+        finalizarImagem(imagem, fp, nome, dimx, dimy);
+    imagem = liberar_matriz (dimx, dimy, imagem);
     /* Sucesso */
     return EXIT_SUCCESS;
 }
