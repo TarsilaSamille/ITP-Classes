@@ -36,18 +36,36 @@ void fundo(Pixel **color, int dx, int dy ,int r, int g,int b){
 }
 
 void bresenham(Ponto p1, Ponto p2, Pixel **color){ 
+    int x , y,fator;
+    if(p2.y < p1.y) {bresenham(p2, p1, color);}else{
     int m_new = 2 * (p2.y - p1.y); 
-    int slope_error_new = m_new - (p2.x - p1.x); 
-    for (int x = p1.x, y = p1.y; x <= p2.x; x++) { 
-        slope_error_new += m_new; 
-        if (slope_error_new >= 0) { 
-                y++; 
-                slope_error_new -= 2 * (p2.x - p1.x); 
-        } 
-         color[x][y] = colorir(0, 0, 255);
-    printf( "%d %d \n",x,y);
+    int slope_error_new = m_new - (p2.x - p1.x);
+    printf("------ P1(%d, %d), p2(%d, %d)\n", p1.x , p1.y,  p2.x , p2.y);
+ 
+    if (p2.x < p1.x) { 
+         for (x = p2.x, y = p2.y; x <= p1.x; x++) { 
+            slope_error_new += m_new; 
+            if (slope_error_new >= 0) { 
+                    y--; 
+                    slope_error_new -= 2 * (p1.x - p2.x); 
+            } 
+            color[x][y] = colorir(0, 0, 255);
+         }   
+          printf(" down - up(%d, %d)\n", x, y);
 
-    } 
+    }
+    else{ 
+         for (x = p1.x, y = p1.y; x <= p2.x; x++) { 
+            slope_error_new += m_new; 
+            if (slope_error_new >= 0) { 
+                    y++; 
+                    slope_error_new -= 2 * (p2.x - p1.x); 
+            } 
+            color[x][y] = colorir(0, 0, 255);
+          printf("up,  down(%d, %d)\n", x, y);
+        } 
+    }
+    }
 }          
 
 
@@ -106,17 +124,19 @@ int main(int argc, char **argv){
         fundo(imagem, dimx, dimy, atoi(r),atoi(g),atoi(b));
 
 
-    /*Ponto p1, p2, p3 , p4;
+    Ponto p1, p2, p3 , p4;
     p1= definePonto(100,50);
     p2= definePonto(0,60);
     p3= definePonto(50,17);
     p4= definePonto(220,1000);
 
+
+
     bresenham(p2 , p1, imagem) ;
-   // bresenham(p1 , p3, imagem) ;
-   // bresenham(p3 , p2, imagem) ;
-   // bresenham(p2 , p4, imagem) ;
-*/
+    bresenham(p1 , p3, imagem) ;
+    bresenham(p3 , p2, imagem) ;
+    bresenham(p2 , p4, imagem) ;
+
     //save
     fscanf(arquivoespecificacao, "%s %s\n", primitiva,nome);
 
