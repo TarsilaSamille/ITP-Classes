@@ -35,105 +35,22 @@ void fundo(Pixel **color, int dx, int dy ,int r, int g,int b){
     }
 }
 
-// void bresenham2(Ponto p1, Ponto p2, Pixel **color){ 
-//     int x,y,fator;
 
 
-//     int m_newx = 2 * (p2.x - p1.x); 
-//     int slope_error_newx = m_newx - (p2.y - p1.y); 
-//     int m_newy = 2 * (p2.y - p1.y); 
-//     int slope_error_newy = m_newy - (p2.x - p1.x); 
-//     printf("X -%d er %d--\nY -%d er %d-\n",m_newx,slope_error_newx, slope_error_newy , m_newy);
-    
-//     int m_new = 2 * (p2.x - p1.x); 
-//     int slope_error_new = m_new - (p2.y - p1.y); 
 
-//          for (x = p1.x, y = p1.y; y <= p2.y; y++) { 
-//             slope_error_new += m_new; 
-//             if (slope_error_new >= 0) { 
-//                     x++; 
-//                     slope_error_new -= 2 * (p2.y - p1.y); 
+void bresenham(Ponto p1, Ponto p2, Pixel **color)
+{
+	int dx =  abs(p2.x-p1.x), sx = p1.x<p2.x ? 1 : -1;
+	int dy = -abs(p2.y-p1.y), sy = p1.y<p2.y ? 1 : -1; 
+	int err = dx+dy, e2; /* error value e_xy */
 
-//             } 
-//             color[x][y] = colorir(0, 0, 255);
-//          }   
-// }          
-
-void bresenham(Ponto p1, Ponto p2, Pixel **color){ 
-    int x , y,fator;
-    if(p2.y < p1.y) {bresenham(p2, p1, color);                       ;
-}else{
-
- int m_newx = 2 * (p2.x - p1.x); 
-     int slope_error_newx = m_newx - (p2.y - p1.y); 
-
-    int m_newy = 2 * (p2.y - p1.y); 
-    int slope_error_newy = m_newy - (p2.x - p1.x); 
-    printf("X -%d er %d--\nY -%d er %d-\n",m_newx,m_newy, slope_error_newy , m_newy);
-
-    int m_new = 2 * (p2.y - p1.y); 
-    int slope_error_new = m_new - (p2.x - p1.x);
-
-    int fatorix, fatoriy, fatorstop, diference,plus;
-
-   printf("---%d er %d--- P1(%d, %d), p2(%d, %d)\n",m_new,slope_error_new, p1.x , p1.y,  p2.x , p2.y);
-
-    if(m_newy < m_newx) {
-
-
-        m_new = 2 * (p2.x - p1.x); 
-        slope_error_new = m_new - (p2.y - p1.y); 
-
-           if(p2.x < p1.x) {//bresenham(p2, p1, color);
-         m_new = -1 * m_new; 
-        slope_error_new = m_new - (p2.y - p1.y); 
-        }
-
-    if (p2.x < p1.x) { 
-        fatorix = p2.x; fatoriy = p2.y; fatorstop =p1.y ; diference= (p1.y - p2.y);plus = -1;
-    }else{
-        fatorix = p1.x; fatoriy = p1.y; fatorstop =p2.y ; diference= (p2.y - p1.y);plus = 1;
-    }
-         for (x = fatorix, y = fatoriy; y <= fatorstop; y++) { 
-            slope_error_new += m_new; 
-            if (slope_error_new >= 0) { 
-                    x = x + plus; 
-                    slope_error_new -= 2 * diference; 
-
-            } 
-            color[x][y] = colorir(0, 0, 255);
-         }   
-    }else{
-    if (p2.x < p1.x) { 
-        fatorix = p2.x; fatoriy = p2.y; fatorstop =p1.x ; diference= (p1.x - p2.x);plus = -1;
-    }else{
-        fatorix = p1.x; fatoriy = p1.y; fatorstop =p2.x ; diference= (p2.x - p1.x);plus = 1;
-                           printf("aaaaaaaaa\n");
-
-    }
-    for (x = fatorix, y = fatoriy; x <= fatorstop; x++) { 
-
-            slope_error_new += m_new; 
-            //printf(" er %d--\n",slope_error_new);
-
-            if (slope_error_new >= 0) { 
-                    y = y + plus; 
-                    slope_error_new -= 2 * diference; 
-                  // printf("%d er %d--- P1(%d, %d), p2(%d, %d)\n",m_new,slope_error_new, p1.x , p1.y,  p2.x ,diference);
-                   if (p2.x < p1.x) { 
-                       
-                   //printf("%d das %d\n",( 2 * (p2.x - p1.x)) - (p2.y - p1.y), 2 * (p2.x - p1.x) );
-                }
-            } 
-            color[x][y] = colorir(0, 0, 255);
-            printf("(%d, %d)\n", x, y);
-
-    }
-
-    }
-
-    }
-}          
+	while(p1.x!=p2.x || p1.y!=p2.y){  /* loop */
+        color[p1.x][p1.y] = colorir(0, 0, 255);
+		e2 = 2*err;
+		if (e2 >= dy) { err += dy; p1.x += sx; } /* e_xy+e_x > 0 */
+		if (e2 <= dx) { err += dx; p1.y += sy; } /* e_xy+e_y < 0 */
+	}
+}
 
 Pixel **alocar_matriz (int m, int n){
   Pixel **v;  
@@ -178,15 +95,18 @@ int main(int argc, char **argv){
     fscanf(arquivoespecificacao, "%s %s %s\n", primitiva, dimencaox, dimencaoy);
 
 
+
     dimx = atoi(dimencaox);
     dimy = atoi(dimencaoy);
-    if(strcmp(primitiva, "image") == 0)
+
+
+    //if(strcmp(primitiva, "image") == 0)
         imagem = alocar_matriz(dimx, dimy);
 
     //ação
     fscanf(arquivoespecificacao, "%s %s %s %s\n", primitiva, r, g, b);
 
-    if(strcmp(primitiva, "clear") == 0)
+    //if(strcmp(primitiva, "clear") == 0)
         fundo(imagem, dimx, dimy, atoi(r),atoi(g),atoi(b));
 
 
@@ -200,16 +120,16 @@ int main(int argc, char **argv){
     imagem[500][50] = colorir(0, 0, 0);
     imagem[220][600] = colorir(0, 0, 0);
 
-    //bresenham(p2 , p1, imagem) ;
-   // bresenham(p2 , p3, imagem) ;
+    bresenham(p2 , p1, imagem) ;
+    bresenham(p2 , p3, imagem) ;
     bresenham(p3 , p4, imagem) ;
-    //bresenham(p1 , p4, imagem) ;
+    bresenham(p1 , p4, imagem) ;
 
 
     //save
     fscanf(arquivoespecificacao, "%s %s\n", primitiva,nome);
 
-    if(strcmp(primitiva, "save") == 0)
+    //if(strcmp(primitiva, "save") == 0)
         finalizarImagem(imagem, fp, nome, dimx, dimy);
     imagem = liberar_matriz (dimx, dimy, imagem);
     /* Sucesso */
