@@ -1,6 +1,7 @@
 #ifndef IMAGEM_H
 #define IMAGEM_H
-
+#include <stdio.h>
+#include "ponto.h"
 #include "pixel.h"
 
 typedef struct Imagem {
@@ -10,9 +11,9 @@ typedef struct Imagem {
 } Imagem;
 
 void gravarPixel( Pixel color, FILE *fp);
-void finalizarImagem( Pixel **imagem , FILE *fp, char nome[], int dx, int dy);
+void finalizarImagem( Pixel **imagem , char nome[], int dx, int dy);
 void fundo(Pixel **color, int dx, int dy ,int r, int g,int b);
-void bresenham(Ponto p1, Ponto p2, Pixel **color);
+void bresenham(Ponto p1, Ponto p2, Pixel **color, Pixel cor);
 Pixel **alocar_matriz (int m, int n);
 Pixel **liberar_matriz (int m, int n, Pixel **v);
 
