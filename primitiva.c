@@ -56,7 +56,7 @@ void lerArquivoExp(FILE *especificacao, Pixel **imagem){
                 if(i > 0)  bresenham(pontos[i] , pontos[i-1], imagem,cor);
                 if(i < vertices) bresenham(pontos[i] , pontos[0], imagem,cor);
             }
-             fscanf(especificacao, "\n");            
+            fscanf(especificacao, "\n");            
         }else if(strcmp(primitiva, "save") == 0){
             fscanf(especificacao, "%s\n", nomeArquivo);
             finalizarImagem(imagem, nomeArquivo, dimx, dimy);

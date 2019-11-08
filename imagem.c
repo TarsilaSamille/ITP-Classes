@@ -36,12 +36,11 @@ void bresenham(Ponto p1, Ponto p2, Pixel **color, Pixel cor)
 	int dx =  abs(p2.x-p1.x), sx = p1.x<p2.x ? 1 : -1;
 	int dy = -abs(p2.y-p1.y), sy = p1.y<p2.y ? 1 : -1; 
 	int err = dx+dy, e2; /* error value e_xy */
-
 	while(p1.x!=p2.x || p1.y!=p2.y){  /* loop */
         color[p1.x][p1.y] = colorir(cor.r, cor.g, cor.b);
 		e2 = 2*err;
 		if (e2 >= dy) { err += dy; p1.x += sx; } /* e_xy+e_x > 0 */
-		if (e2 <= dx) { err += dx; p1.y += sy; } /* e_xy+e_y < 0 */
+		if (e2 <= dx) { err += dx; p1.y += sy;} /* e_xy+e_y < 0 */
 	}
 }
 
