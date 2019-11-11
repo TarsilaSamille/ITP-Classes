@@ -2,7 +2,6 @@
 #include "ponto.h"
 #include "primitiva.h"
 #include <stdio.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>

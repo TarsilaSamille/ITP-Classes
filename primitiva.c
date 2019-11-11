@@ -23,7 +23,7 @@ void lerArquivoExp(FILE *especificacao, Pixel **imagem){
 
     Ponto p ,p1,p2; 
 
-    Pixel cor;
+    Pixel cor, background;
     int intr, intg, intb, dimx, dimy, x1 ,y2,x2 ,y1,x,y,i, vertices, raio;
     //save
     char nomeArquivo[15] = "";
@@ -36,12 +36,11 @@ void lerArquivoExp(FILE *especificacao, Pixel **imagem){
             imagem = alocar_matriz(dimx, dimy);            
         }else if(strcmp(primitiva, "clear") == 0){
             fscanf(especificacao, "%d %d %d\n", &intr, &intg, &intb);
-            fundo(imagem, dimx, dimy, intr,intg,intb);
+            background = colorir(intr, intg, intb);
+            fundo(imagem, dimx, dimy, background);
          }else if(strcmp(primitiva, "color") == 0){
             fscanf(especificacao, "%d %d %d\n", &intr, &intg, &intb);
-            cor.r = intr;
-            cor.g = intg;
-            cor.b = intb;
+            cor = colorir(intr, intg, intb);
         }else if(strcmp(primitiva, "line") == 0){
             fscanf(especificacao, "%d %d %d %d\n", &x1, &y1,&x2, &y2);
             p1= definePonto(x1,y1);
@@ -64,7 +63,8 @@ void lerArquivoExp(FILE *especificacao, Pixel **imagem){
         }else if(strcmp(primitiva, "fill") == 0){
             fscanf(especificacao, "%d %d\n", &x1, &y1);
             p= definePonto(x1,y1);
-            imagem[x1][y1] = colorir(cor.r, cor.g, cor.b);           
+            imagem[x1][y1] = colorir(cor.r, cor.g, cor.b);  
+            fill(p, dimx, dimy, imagem, cor, background);      
         }else if(strcmp(primitiva, "save") == 0){
             fscanf(especificacao, "%s\n", nomeArquivo);
             finalizarImagem(imagem, nomeArquivo, dimx, dimy);
