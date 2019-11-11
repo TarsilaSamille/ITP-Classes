@@ -21,8 +21,10 @@ void lerArquivoExp(FILE *especificacao, Pixel **imagem){
     char g[3] = ""; 
     char b[3] = "";
 
+    Ponto p ,p1,p2; 
+
     Pixel cor;
-    int intr, intg, intb, dimx, dimy, x1 ,y2,x2 ,y1,x,y,i, vertices;
+    int intr, intg, intb, dimx, dimy, x1 ,y2,x2 ,y1,x,y,i, vertices, raio;
     //save
     char nomeArquivo[15] = "";
     while(strcmp(primitiva, "save") != 0){
@@ -40,9 +42,7 @@ void lerArquivoExp(FILE *especificacao, Pixel **imagem){
             cor.r = intr;
             cor.g = intg;
             cor.b = intb;
-            Ponto p1,p2; 
         }else if(strcmp(primitiva, "line") == 0){
-            Ponto p1,p2; 
             fscanf(especificacao, "%d %d %d %d\n", &x1, &y1,&x2, &y2);
             p1= definePonto(x1,y1);
             p2= definePonto(x2,y2);
@@ -57,6 +57,14 @@ void lerArquivoExp(FILE *especificacao, Pixel **imagem){
                 if(i < vertices) bresenham(pontos[i] , pontos[0], imagem,cor);
             }
             fscanf(especificacao, "\n");            
+        }else if(strcmp(primitiva, "circle") == 0){
+            fscanf(especificacao, "%d %d %d\n", &x1, &y1,&raio);
+            p= definePonto(x1,y1);
+            circulo(p, raio, imagem,cor);
+        }else if(strcmp(primitiva, "fill") == 0){
+            fscanf(especificacao, "%d %d\n", &x1, &y1);
+            p= definePonto(x1,y1);
+            imagem[x1][y1] = colorir(cor.r, cor.g, cor.b);           
         }else if(strcmp(primitiva, "save") == 0){
             fscanf(especificacao, "%s\n", nomeArquivo);
             finalizarImagem(imagem, nomeArquivo, dimx, dimy);

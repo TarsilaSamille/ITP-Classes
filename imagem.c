@@ -44,6 +44,22 @@ void bresenham(Ponto p1, Ponto p2, Pixel **color, Pixel cor)
 	}
 }
 
+
+void circulo(Ponto p1, int r, Pixel **color, Pixel cor)
+{
+	int x = -r, y = 0, err = 2-2*r; /* II. Quadrant */ 
+	do {
+		color[p1.x-x][p1.y+y] = colorir(cor.r, cor.g, cor.b); /*   I. Quadrant */
+		color[p1.x-y][p1.y-x] = colorir(cor.r, cor.g, cor.b); /*  II. Quadrant */
+		color[p1.x+x][p1.y-y] = colorir(cor.r, cor.g, cor.b); /* III. Quadrant */
+		color[p1.x+y][p1.y+x] = colorir(cor.r, cor.g, cor.b); /*  IV. Quadrant */
+		r = err;
+		if (r <= y) err += ++y*2+1;           /* e_xy+e_y < 0 */
+		if (r > x || err > y) err += ++x*2+1; /* e_xy+e_x > 0 or no 2nd y-step */
+	} while (x < 0);
+}
+
+
 Pixel **alocar_matriz (int m, int n)
 {
   Pixel **v;  

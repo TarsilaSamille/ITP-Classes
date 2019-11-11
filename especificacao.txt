@@ -4,4 +4,7 @@ color 0 0 0
 line 0 0 1000 500
 line 300 700 666 1000
 polygon 3 300 300 300 900 666 666
+circle 200 100 50
+color 180 30 50
+fill 300 300
 save reprovou.ppm
