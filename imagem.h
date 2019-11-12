@@ -13,8 +13,8 @@ typedef struct Imagem {
 
 int pitagoras (int x, int y);
 void fill(Ponto p,int dx, int dy , Pixel **color, Pixel cor, Pixel background);
-void fillY(Ponto p,int dx, int dy , Pixel **color, Pixel cor, Pixel background);
-void fillX(Ponto p,int dx, int dy , Pixel **color, Pixel cor, Pixel background);
+void fillY(Ponto p,int dx, int dy , Pixel **color, Pixel **o,  Pixel cor, Pixel background);
+void fillX(Ponto p,int dx, int dy , Pixel **color,Pixel **o,  Pixel cor, Pixel background);
 void circulo(Ponto p1, int r, Pixel **color, Pixel cor);
 void gravarPixel( Pixel color, FILE *fp);
 void finalizarImagem( Pixel **imagem , char nome[], int dx, int dy);

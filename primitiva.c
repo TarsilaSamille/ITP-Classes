@@ -63,7 +63,7 @@ void lerArquivoExp(FILE *especificacao, Pixel **imagem){
         }else if(strcmp(primitiva, "fill") == 0){
             fscanf(especificacao, "%d %d\n", &x1, &y1);
             p= definePonto(x1,y1);
-            imagem[x1][y1] = colorir(cor.r, cor.g, cor.b);  
+            imagem[x1][y1] = colorir(background.r, background.g, background.b);  
             fill(p, dimx, dimy, imagem, cor, background);      
         }else if(strcmp(primitiva, "save") == 0){
             fscanf(especificacao, "%s\n", nomeArquivo);
