@@ -97,61 +97,25 @@ void fill(Ponto p,int dx, int dy , Pixel **color, Pixel cor, Pixel background){
                 break;
             }
             ponto = definePonto(p.x-x,p.y);
-            fillY( ponto, dx, dy , color,  o,cor, background);
+           fillY( ponto, dx, dy , color,  o,cor, background);
             color[p.x-x][p.y] = colorir(cor.r, cor.g, cor.b);
         }
-         for (y = 1; y < dy; ++y){
-            if(o[p.x][p.y+y].r != background.r || o[p.x][p.y+y].g != background.g || o[p.x][p.y+y].b != background.b){
-                break;
-            }
-            ponto = definePonto(p.x,p.y+y);
-            fillX( ponto, dx, dy , color,o, cor, background);
-            color[p.x][p.y+y] = colorir(cor.r, cor.g, cor.b);
-        }
-        for (y = 1; y < p.y; ++y){
-            if(o[p.x][p.y-y].r != background.r || o[p.x][p.y-y].g != background.g || o[p.x][p.y-y].b != background.b){
-                break;
-            }
-            ponto = definePonto(p.x,p.y-y);
-            fillX( ponto, dx, dy , color,o, cor, background);
-            color[p.x][p.y-y] = colorir(cor.r, cor.g, cor.b);
-        }
-        for (x = 1; x < pitagoras ( dx - p.x, dy- p.y); ++x){
-            if(o[p.x+x][p.y+x].r != background.r || o[p.x+x][p.y+x].g != background.g || o[p.x+x][p.y+x].b != background.b){
-                break;
-            }
-            ponto = definePonto(p.x+x,p.y+x);
-            fillY( ponto, dx, dy , color,o, cor, background);
-            fillX( ponto, dx, dy , color,o, cor, background);
-            color[p.x+x][p.y+x] = colorir(cor.r, cor.g, cor.b);
-        }
-        for (x = 1; x < pitagoras (dx - p.x, dy- p.y); ++x){
-            if(o[p.x-x][p.y-x].r != background.r || o[p.x-x][p.y-x].g != background.g || o[p.x-x][p.y-x].b != background.b){
-                break;
-            }
-            ponto = definePonto(p.x-x,p.y-x);
-            fillY( ponto, dx, dy , color,o,  cor, background);
-            fillX( ponto, dx, dy , color,o,  cor, background);
-            color[p.x-x][p.y-x] = colorir(cor.r, cor.g, cor.b);
-        }
-         for (x = 1; x < pitagoras (dx - p.x, dy- p.y); ++x){
-            if(o[p.x+x][p.y-x].r != background.r || o[p.x+x][p.y-x].g != background.g || o[p.x+x][p.y-x].b != background.b){
-                break;
-            }
-            ponto = definePonto(p.x+x,p.y-x);
-            fillY( ponto, dx, dy , color,o,  cor, background);
-            fillX( ponto, dx, dy , color,o,  cor, background);
-            color[p.x+x][p.y-x] = colorir(cor.r, cor.g, cor.b);
-        }
-         for (x = 1; x < pitagoras (dx - p.x, dy- p.y); ++x){
-            if(o[p.x-x][p.y+x].r != background.r || o[p.x-x][p.y+x].g != background.g || o[p.x-x][p.y+x].b != background.b){
-                break;
-            }
-            ponto = definePonto(p.x-x,p.y+x);
-            fillY( ponto, dx, dy , color, o, cor, background);
-            fillX( ponto, dx, dy , color, o,  cor, background);
-            color[p.x-x][p.y+x] = colorir(cor.r, cor.g, cor.b);
-        }
+        //  for (y = 1; y < dy; ++y){
+        //     if(o[p.x][p.y+y].r != background.r || o[p.x][p.y+y].g != background.g || o[p.x][p.y+y].b != background.b){
+        //         break;
+        //     }
+        //     ponto = definePonto(p.x,p.y+y);
+        //   //  fillX( ponto, dx, dy , color,o, cor, background);
+        //     color[p.x][p.y+y] = colorir(cor.r, cor.g, cor.b);
+        // }
+        // for (y = 1; y < p.y; ++y){
+        //     if(o[p.x][p.y-y].r != background.r || o[p.x][p.y-y].g != background.g || o[p.x][p.y-y].b != background.b){
+        //         break;
+        //     }
+        //     ponto = definePonto(p.x,p.y-y);
+        //    // fillX( ponto, dx, dy , color,o, cor, background);
+        //     color[p.x][p.y-y] = colorir(cor.r, cor.g, cor.b);
+        // }
 
 }
 
@@ -160,18 +124,32 @@ void fill(Ponto p,int dx, int dy , Pixel **color, Pixel cor, Pixel background){
 void fillY(Ponto p,int dx, int dy , Pixel **color, Pixel **o, Pixel cor, Pixel background){
         int y,x;
         //color[p.x][p.y] = colorir(background.r, background.g, background.b);  
-
+        Ponto ponto;
          for (y = 1; y < dy; ++y){
-            if(o[p.x][p.y+y].r != background.r || o[p.x][p.y+y].g != background.g || o[p.x][p.y+y].b != background.b){
-                break;
+            if(o[p.x][p.y+y].r == background.r && o[p.x][p.y+y].g == background.g && o[p.x][p.y+y].b == background.b){
+             
+            
+            if(x == 0){
+                ponto = definePonto(p.x,p.y+y);
+                fillX( ponto, dx, dy , color,o,  cor, background);
             }
+
             color[p.x][p.y+y] = colorir(cor.r, cor.g, cor.b);
+            
+             }else{   break;
+            }
         }
         for (y = 1; y < p.y; ++y){
-            if(o[p.x][p.y-y].r != background.r || o[p.x][p.y-y].g != background.g || o[p.x][p.y-y].b != background.b){
-                break;
+            if(o[p.x][p.y-y].r == background.r && o[p.x][p.y-y].g == background.g && o[p.x][p.y-y].b == background.b){
+             
+            if(x == 0){
+                ponto = definePonto(p.x,p.y-y);
+                fillX( ponto, dx, dy , color,o,  cor, background);
             }
             color[p.x][p.y-y] = colorir(cor.r, cor.g, cor.b);
+
+             }else{   break;
+            }
         }
 
 }
@@ -180,19 +158,97 @@ void fillY(Ponto p,int dx, int dy , Pixel **color, Pixel **o, Pixel cor, Pixel b
 void fillX(Ponto p,int dx, int dy , Pixel **color,Pixel **o, Pixel cor, Pixel background){
         int y,x;
         color[p.x][p.y] = colorir(background.r, background.g, background.b);  
-
+        Ponto ponto;
         for (x = 0; x < dx - p.x; ++x){
-            if(o[p.x+x][p.y].r != background.r || o[p.x+x][p.y].g != background.g || o[p.x+x][p.y].b != background.b){
-                break;
+            if(o[p.x+x][p.y].r == background.r && o[p.x+x][p.y].g == background.g && o[p.x+x][p.y].b == background.b){
+             
+            if(x == 0){
+                ponto = definePonto(p.x+x,p.y);
+                fillXY( ponto, dx, dy , color,o,  cor, background);
             }
+
             color[p.x+x][p.y] = colorir(cor.r, cor.g, cor.b);
+            }else{   break;
+            }
         }
         for (x = 1; x < p.x; ++x){
-            if(o[p.x-x][y].r != background.r || o[p.x-x][p.y].g != background.g || o[p.x-x][p.y].b != background.b){
-                break;
+            if(o[p.x-x][y].r == background.r && o[p.x-x][p.y].g == background.g && o[p.x-x][p.y].b == background.b){
+                  
+
+            if(x == 1){
+                            ponto = definePonto(p.x-x,p.y);
+
+              
+              fillXY( ponto, dx, dy , color,o,  cor, background);
             }
             color[p.x-x][p.y] = colorir(cor.r, cor.g, cor.b);
+
+ }else{   break;
+            }
+
         }
+
+}
+
+
+void fillXY(Ponto p,int dx, int dy , Pixel **color, Pixel **o, Pixel cor, Pixel background){
+          int y,x;
+        //color[p.x][p.y] = colorir(background.r, background.g, background.b);  
+        Ponto ponto;
+         for (y = 1; y < dy; ++y){
+            if(o[p.x][p.y+y].r == background.r && o[p.x][p.y+y].g == background.g && o[p.x][p.y+y].b == background.b){
+             
+            color[p.x][p.y+y] = colorir(cor.r, cor.g, cor.b);
+            
+             }else{   break;
+            }
+        }
+        for (y = 1; y < p.y; ++y){
+            if(o[p.x][p.y-y].r == background.r && o[p.x][p.y-y].g == background.g && o[p.x][p.y-y].b == background.b){
+                color[p.x][p.y-y] = colorir(cor.r, cor.g, cor.b);
+             }else{   break;
+            }
+        }
+        
+        // int y,x;
+        // //color[p.x][p.y] = colorir(background.r, background.g, background.b);  
+        // Ponto ponto;
+        //  for (x = 1; x < pitagoras ( dx - p.x, dy- p.y); ++x){
+        //     if(o[p.x+x][p.y+x].r != background.r || o[p.x+x][p.y+x].g != background.g || o[p.x+x][p.y+x].b != background.b){
+        //         break;
+        //     }
+        //    // ponto = definePonto(p.x+x,p.y+x);
+        //    // fillY( ponto, dx, dy , color,o, cor, background);
+        //    // fillX( ponto, dx, dy , color,o, cor, background);
+        //     color[p.x+x][p.y+x] = colorir(cor.r, cor.g, cor.b);
+        // }
+        // for (x = 1; x < pitagoras (dx - p.x, dy- p.y); ++x){
+        //     if(o[p.x-x][p.y-x].r != background.r || o[p.x-x][p.y-x].g != background.g || o[p.x-x][p.y-x].b != background.b){
+        //         break;
+        //     }
+        //    // ponto = definePonto(p.x-x,p.y-x);
+        //     //fillY( ponto, dx, dy , color,o,  cor, background);
+        //    // fillX( ponto, dx, dy , color,o,  cor, background);
+        //    color[p.x-x][p.y-x] = colorir(cor.r, cor.g, cor.b);
+        // }
+        //  for (x = 1; x < pitagoras (dx - p.x, dy- p.y); ++x){
+        //     if(o[p.x+x][p.y-x].r != background.r || o[p.x+x][p.y-x].g != background.g || o[p.x+x][p.y-x].b != background.b){
+        //         break;
+        //     }
+        //     //ponto = definePonto(p.x+x,p.y-x);
+        //     //fillY( ponto, dx, dy , color,o,  cor, background);
+        //     //fillX( ponto, dx, dy , color,o,  cor, background);
+        //     color[p.x+x][p.y-x] = colorir(cor.r, cor.g, cor.b);
+        // }
+        //  for (x = 1; x < pitagoras (dx - p.x, dy- p.y); ++x){
+        //     if(o[p.x-x][p.y+x].r != background.r || o[p.x-x][p.y+x].g != background.g || o[p.x-x][p.y+x].b != background.b){
+        //         break;
+        //     }
+        //     //ponto = definePonto(p.x-x,p.y+x);
+        //     //fillY( ponto, dx, dy , color, o, cor, background);
+        //     //fillX( ponto, dx, dy , color, o,  cor, background);
+        //     color[p.x-x][p.y+x] = colorir(cor.r, cor.g, cor.b);
+        // }
 
 }
 

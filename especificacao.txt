@@ -6,7 +6,7 @@ line 300 700 666 1000
 polygon 3 300 300 300 900 666 666
 color 255 0 255
 fill 356 50
-save reprovou3.ppm
+save reprovou4.ppm
 
 image 1920 1080
 clear 255 0 255
