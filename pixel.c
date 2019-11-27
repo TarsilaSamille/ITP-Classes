@@ -1,5 +1,6 @@
 #include "pixel.h"
 
+//Função que colore determinado local de acordo com a cor prévia
 Pixel colorir(int r, int g, int b)
 {
     Pixel color;

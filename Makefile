@@ -1,16 +1,7 @@
 all: main
 
-main: ponto.o circulo.o quadrado.o desenho.o pixel.o primitiva.o imagem.o main.c
-	gcc main.c -o main ponto.o circulo.o quadrado.o pixel.o desenho.o primitiva.o imagem.o -lm
-
-desenho.o: desenho.c
-	gcc -c desenho.c
-
-circulo.o: circulo.c
-	gcc -c circulo.c
-
-quadrado.o: quadrado.c
-	gcc -c quadrado.c
+main: ponto.o pixel.o primitiva.o imagem.o main.c
+	gcc main.c -o main ponto.o pixel.o primitiva.o imagem.o -lm
 
 ponto.o: ponto.c
 	gcc -c ponto.c

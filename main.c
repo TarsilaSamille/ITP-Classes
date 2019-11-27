@@ -10,7 +10,7 @@ int main(int argc, char **argv){
     FILE *especificacao=NULL;
 
     Pixel **imagem;
-    // abreArquivoExp(fp, "especificacao.txt");
+    //Abertura do arquivo de especificação
     especificacao = fopen("especificacao.txt", "r");
     lerArquivoExp( especificacao ,imagem);
 
